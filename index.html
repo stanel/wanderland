@@ -264,6 +264,19 @@ a.fw-chip:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,
   <p class="hero-subtitle">zu Fuss die Schweiz entdecken</p>
 </div>
 
+<!-- SUCHLEISTE -->
+<div id="search-bar" style="background:white;border-bottom:1px solid #e0ddd6;padding:0.75rem 2rem;display:flex;align-items:center;gap:10px;">
+  <span style="font-size:16px;">🔍</span>
+  <input id="search-input" type="text" placeholder="Suche nach Ort, Person oder Jahr (z.B. Bruno, Luzern, 2023)…"
+    style="flex:1;border:1px solid #ddd;border-radius:20px;padding:7px 16px;font-size:13px;font-family:'Source Sans 3',sans-serif;outline:none;background:#f9f8f5;color:#1a1a1a;"
+    oninput="doSearch(this.value)">
+  <button onclick="clearSearch()" style="font-size:12px;color:#888;background:none;border:none;cursor:pointer;padding:4px 8px;">✕ Löschen</button>
+</div>
+<!-- SUCHERGEBNISSE -->
+<div id="search-results" style="display:none;padding:1.5rem 2rem;background:#f9f8f5;min-height:100px;">
+  <div id="search-results-inner"></div>
+</div>
+
 <div class="tabs">
   <button class="tab active" onclick="switchTab('wanderwege',this)">Schweizer Wanderwege</button>
   <button class="tab" onclick="switchTab('fluss',this)">Flusswanderungen</button>
@@ -3336,6 +3349,7 @@ a.fw-chip:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,
     <span class="fw-chip done" onclick="document.getElementById('lake-lungernsee-section').scrollIntoView({behavior:'smooth',block:'start'});" style="cursor:pointer;"><span class="fw-dot" style="background:#3D9A6A"></span>Lungernsee</span>
     <span class="fw-chip done" onclick="document.getElementById('lake-golzerensee-section').scrollIntoView({behavior:'smooth',block:'start'});" style="cursor:pointer;"><span class="fw-dot" style="background:#4FA8C7"></span>Golzerensee</span>
     <span class="fw-chip done" onclick="document.getElementById('lake-goescheneralpsee-section').scrollIntoView({behavior:'smooth',block:'start'});" style="cursor:pointer;"><span class="fw-dot" style="background:#5BA8D4"></span>Göscheneralpsee</span>
+    <span class="fw-chip done" onclick="document.getElementById('lake-rotsee-section').scrollIntoView({behavior:'smooth',block:'start'});" style="cursor:pointer;"><span class="fw-dot" style="background:#C85A6E"></span>Rotsee ✓</span>
   </div>
 
   <!-- GENFERSEE -->
@@ -4252,6 +4266,22 @@ a.fw-chip:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,
   </div>
 
 
+  <!-- ROTSEE -->
+  <div class="river-header" id="lake-rotsee-section">
+    <div class="river-title"><span class="river-num" style="background:#C85A6E">R</span> Rotsee</div>
+    <div class="river-meta">Ebikon · Kanton Luzern · kleiner Natursee beim Zugersee</div>
+  </div>
+  <div class="sub-section">
+    <div class="etappen-list">
+      <details class="etappe-with-video">
+        <summary><div class="etappe-card"><div class="card-accent" style="background:#C85A6E"></div><div class="card-inner"><div class="card-left"><div class="card-name">Rundwanderung Rotsee <a class="relive-badge" href="https://www.relive.com/de/view/vYvExrEwMGq" target="_blank" rel="noopener" onclick="event.stopPropagation();">🎬 Relive</a></div><div class="card-meta">Mit Bruno · Ostersonntag · 51. Hochzeitstag · Restaurant Trumpf Buur Ebikon</div></div><div class="card-right"><div class="card-date">5.4.2026</div><span class="card-tag" style="background:#FBEAF0;color:#72243E;">Rotsee</span></div></div></div></summary>
+        <div class="story-text">
+          <p>Am Ostersonntag, 5. April 2026, waren wir bei Florian zum Brunch eingeladen, zusammen mit Matthias und Debby. Am Nachmittag fuhren Bruno und ich nach Ebikon und wanderten um den Rotsee. Anschliessend trafen wir uns mit Florian, Inna, Max, Eva, Debby und Matthias zum Nachtessen im Restaurant Trumpf Buur in Ebikon. Wir haben eingeladen — anlässlich unseres <strong>51. Hochzeitstages</strong>. 🥂</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
   <div class="to-menu"><span role="button" tabindex="0" onclick="document.getElementById('seen-menu').scrollIntoView({behavior:'smooth',block:'start'});">↑ zum Menu</span></div>
 </div>
 <div id="tab-eigene" class="tab-content">
@@ -4788,6 +4818,48 @@ a.fw-chip:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,
           <div class="milestone-meta">11.10.2025</div>
         </div>
       </div>
+      <div class="milestone">
+        <div class="milestone-acc" style="background:#D85A30"></div>
+        <div class="milestone-body">
+          <div class="milestone-left">
+            <div class="milestone-title">Maienfeld – Fläsch <a class="relive-badge" href="https://www.relive.com/de/view/vQvykKPgM46" target="_blank" rel="noopener" onclick="event.stopPropagation();">🎬 Relive</a></div>
+            <div class="milestone-note">Mit Bruno · auf dem Heimweg von Thomi & Verena in Salums</div>
+          </div>
+          <div class="milestone-meta">27.12.2025</div>
+        </div>
+        <details style="margin-top:0.5rem;">
+          <summary style="cursor:pointer;font-weight:600;color:#1D9E75;padding:0.4rem 0;font-size:12px;">Reisebericht anzeigen</summary>
+          <div class="story-text" style="padding-top:0.5rem;">
+            <p>Auf dem Heimweg vom Aufenthalt bei Thomi und Verena in Salums machen wir halt in Maienfeld. Es hat noch Bodennebel und ist frisch. Oberhalb des Nebels wandern wir nach Fläsch. Mit dem Bus zurück nach Maienfeld, wo wir im Restaurant Löwen ein feines Mittagessen geniessen.</p>
+          </div>
+        </details>
+      </div>
+      <div class="milestone">
+        <div class="milestone-acc" style="background:#D85A30"></div>
+        <div class="milestone-body">
+          <div class="milestone-left">
+            <div class="milestone-title">Magglingen – Twann (Twannbachschlucht) <a class="relive-badge" href="https://www.relive.com/de/view/vPOpkd2NXRv" target="_blank" rel="noopener" onclick="event.stopPropagation();">🎬 Relive</a></div>
+            <div class="milestone-note">Solo · Bielersee · Jura</div>
+          </div>
+          <div class="milestone-meta">8.11.2025</div>
+        </div>
+        <details style="margin-top:0.5rem;">
+          <summary style="cursor:pointer;font-weight:600;color:#1D9E75;padding:0.4rem 0;font-size:12px;">Reisebericht anzeigen</summary>
+          <div class="story-text" style="padding-top:0.5rem;">
+            <p>Eigentlich wollten wir von Biel der Aare entlang wandern. Da in den Niederungen Nebel herrschte, sind wir von Magglingen nach Twann gewandert. Eigentlich wollten wir durch die Twannbachschlucht — diese war aber geschlossen.</p>
+          </div>
+        </details>
+      </div>
+      <div class="milestone">
+        <div class="milestone-acc" style="background:#D85A30"></div>
+        <div class="milestone-body">
+          <div class="milestone-left">
+            <div class="milestone-title">Valle di Muggio <a class="relive-badge" href="https://www.relive.com/de/view/vdORzWrV4KO" target="_blank" rel="noopener" onclick="event.stopPropagation();">🎬 Relive</a></div>
+            <div class="milestone-note">Mit Bruder Franz · Tessin</div>
+          </div>
+          <div class="milestone-meta">25.10.2025</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -4943,9 +5015,87 @@ a.fw-chip:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,
 </div>
 
 <script>
-function switchTab(name,btn){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');btn.classList.add('active');}
+function doSearch(query) {
+  const q = query.trim().toLowerCase();
+  const resultsDiv = document.getElementById('search-results');
+  const inner = document.getElementById('search-results-inner');
+  const tabs = document.querySelector('.tabs');
+
+  if (q.length < 2) {
+    resultsDiv.style.display = 'none';
+    tabs.style.display = '';
+    document.querySelectorAll('.tab-content').forEach(t => t.style.display = '');
+    // Aktiven Tab wieder sichtbar machen
+    document.querySelector('.tab-content.active').style.display = 'block';
+    return;
+  }
+
+  // Alle Text-Knoten durchsuchen
+  const allCards = document.querySelectorAll('.reg-card, .etappe-card, .et-card, .milestone, .hike-card, .etappe-with-video');
+  const matches = [];
+
+  allCards.forEach(card => {
+    const text = card.innerText || card.textContent || '';
+    if (text.toLowerCase().includes(q)) {
+      // Titel / Name extrahieren
+      const nameEl = card.querySelector('.reg-name, .card-name, .et-name, .milestone-title, .hike-title, .etappe-name');
+      const dateEl = card.querySelector('.reg-date, .card-date, .milestone-meta, .hike-date');
+      const metaEl = card.querySelector('.reg-meta, .card-meta, .et-note, .milestone-note, .hike-desc');
+      const numEl  = card.querySelector('.reg-num, .et-num');
+
+      const name = nameEl ? (nameEl.innerText || nameEl.textContent).trim() : text.substring(0, 60).trim();
+      const date = dateEl ? (dateEl.innerText || dateEl.textContent).trim() : '';
+      const meta = metaEl ? (metaEl.innerText || metaEl.textContent).trim().substring(0, 100) : '';
+      const num  = numEl  ? (numEl.innerText  || numEl.textContent).trim() : '';
+
+      // Treffer-Text hervorheben
+      const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+      const hlName = name.replace(regex, '<mark style="background:#FFF176;border-radius:2px;padding:0 2px;">$1</mark>');
+      const hlMeta = meta.replace(regex, '<mark style="background:#FFF176;border-radius:2px;padding:0 2px;">$1</mark>');
+
+      matches.push({ hlName, hlMeta, date, num });
+    }
+  });
+
+  // Ergebnisse anzeigen
+  tabs.style.display = 'none';
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  resultsDiv.style.display = 'block';
+
+  if (matches.length === 0) {
+    inner.innerHTML = `<p style="color:#888;font-size:14px;padding:1rem 0;">Keine Treffer für <strong>«${query}»</strong> gefunden.</p>`;
+  } else {
+    let html = `<p style="font-size:12px;color:#888;margin-bottom:1rem;">${matches.length} Treffer für <strong>«${query}»</strong></p>`;
+    html += '<div style="display:flex;flex-direction:column;gap:8px;">';
+    matches.forEach(m => {
+      html += `<div style="background:white;border:1px solid #e0ddd6;border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #0F6E56;">
+        <div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:500;color:#1a1a1a;">${m.num ? '<span style="font-size:10px;color:#888;margin-right:6px;">'+m.num+'</span>' : ''}${m.hlName}</div>
+        ${m.date ? `<div style="font-size:11px;color:#888;margin-top:2px;">${m.date}</div>` : ''}
+        ${m.hlMeta ? `<div style="font-size:11px;color:#666;margin-top:3px;">${m.hlMeta}</div>` : ''}
+      </div>`;
+    });
+    html += '</div>';
+    inner.innerHTML = html;
+  }
+}
+
+function clearSearch() {
+  const input = document.getElementById('search-input');
+  input.value = '';
+  doSearch('');
+  input.focus();
+}
+
+
 const allR=['act-1','act-2','act-3','act-4','act-5','act-7'];
 function sr(name,btn,cls){document.querySelectorAll('.route-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.route-tab').forEach(t=>allR.forEach(c=>t.classList.remove(c)));document.getElementById('fluss-'+name).classList.add('active');btn.classList.add(cls);}
+function switchTab(name,btn){
+  clearSearch();
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
 function switchWW(name,btn,cls){document.querySelectorAll('.ww-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.ww-tab').forEach(t=>t.classList.remove('act-nat','act-reg','act-lok'));document.getElementById('ww-'+name).classList.add('active');btn.classList.add(cls);}
 </script>
 </body></html>
