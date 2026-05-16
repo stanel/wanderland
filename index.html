@@ -5025,39 +5025,38 @@ function doSearch(query) {
     resultsDiv.style.display = 'none';
     tabs.style.display = '';
     document.querySelectorAll('.tab-content').forEach(t => t.style.display = '');
-    // Aktiven Tab wieder sichtbar machen
     document.querySelector('.tab-content.active').style.display = 'block';
     return;
   }
 
-  // Alle Text-Knoten durchsuchen
   const allCards = document.querySelectorAll('.reg-card, .etappe-card, .et-card, .milestone, .hike-card, .etappe-with-video');
   const matches = [];
 
-  allCards.forEach(card => {
+  allCards.forEach((card, idx) => {
     const text = card.innerText || card.textContent || '';
     if (text.toLowerCase().includes(q)) {
-      // Titel / Name extrahieren
-      const nameEl = card.querySelector('.reg-name, .card-name, .et-name, .milestone-title, .hike-title, .etappe-name');
+      const nameEl = card.querySelector('.reg-name, .card-name, .et-name, .milestone-title, .hike-title');
       const dateEl = card.querySelector('.reg-date, .card-date, .milestone-meta, .hike-date');
       const metaEl = card.querySelector('.reg-meta, .card-meta, .et-note, .milestone-note, .hike-desc');
       const numEl  = card.querySelector('.reg-num, .et-num');
 
       const name = nameEl ? (nameEl.innerText || nameEl.textContent).trim() : text.substring(0, 60).trim();
       const date = dateEl ? (dateEl.innerText || dateEl.textContent).trim() : '';
-      const meta = metaEl ? (metaEl.innerText || metaEl.textContent).trim().substring(0, 100) : '';
+      const meta = metaEl ? (metaEl.innerText || metaEl.textContent).trim().substring(0, 120) : '';
       const num  = numEl  ? (numEl.innerText  || numEl.textContent).trim() : '';
 
-      // Treffer-Text hervorheben
+      // Eindeutige ID für diese Karte setzen
+      const cardId = 'search-target-' + idx;
+      card.setAttribute('data-search-id', cardId);
+
       const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
       const hlName = name.replace(regex, '<mark style="background:#FFF176;border-radius:2px;padding:0 2px;">$1</mark>');
       const hlMeta = meta.replace(regex, '<mark style="background:#FFF176;border-radius:2px;padding:0 2px;">$1</mark>');
 
-      matches.push({ hlName, hlMeta, date, num });
+      matches.push({ hlName, hlMeta, date, num, cardId, card });
     }
   });
 
-  // Ergebnisse anzeigen
   tabs.style.display = 'none';
   document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
   resultsDiv.style.display = 'block';
@@ -5065,18 +5064,89 @@ function doSearch(query) {
   if (matches.length === 0) {
     inner.innerHTML = `<p style="color:#888;font-size:14px;padding:1rem 0;">Keine Treffer für <strong>«${query}»</strong> gefunden.</p>`;
   } else {
-    let html = `<p style="font-size:12px;color:#888;margin-bottom:1rem;">${matches.length} Treffer für <strong>«${query}»</strong></p>`;
+    let html = `<p style="font-size:12px;color:#888;margin-bottom:1rem;">${matches.length} Treffer für <strong>«${query}»</strong> — klicke auf einen Eintrag um zur Wanderung zu springen.</p>`;
     html += '<div style="display:flex;flex-direction:column;gap:8px;">';
-    matches.forEach(m => {
-      html += `<div style="background:white;border:1px solid #e0ddd6;border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #0F6E56;">
-        <div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:500;color:#1a1a1a;">${m.num ? '<span style="font-size:10px;color:#888;margin-right:6px;">'+m.num+'</span>' : ''}${m.hlName}</div>
-        ${m.date ? `<div style="font-size:11px;color:#888;margin-top:2px;">${m.date}</div>` : ''}
-        ${m.hlMeta ? `<div style="font-size:11px;color:#666;margin-top:3px;">${m.hlMeta}</div>` : ''}
+    matches.forEach((m, i) => {
+      html += `<div style="background:white;border:1px solid #e0ddd6;border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #0F6E56;cursor:pointer;" onclick="goToCard('${m.cardId}')" onmouseenter="this.style.borderColor='#0F6E56';this.style.background='#f0faf6'" onmouseleave="this.style.borderColor='#e0ddd6';this.style.background='white'">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:500;color:#1a1a1a;">${m.num ? '<span style="font-size:10px;color:#888;margin-right:6px;">'+m.num+'</span>' : ''}${m.hlName}</div>
+            ${m.date ? `<div style="font-size:11px;color:#888;margin-top:2px;">${m.date}</div>` : ''}
+            ${m.hlMeta ? `<div style="font-size:11px;color:#666;margin-top:3px;">${m.hlMeta}</div>` : ''}
+          </div>
+          <span style="font-size:11px;font-weight:600;color:#0F6E56;white-space:nowrap;padding:3px 8px;background:#E1F5EE;border-radius:20px;flex-shrink:0;">→ Anzeigen</span>
+        </div>
       </div>`;
     });
     html += '</div>';
     inner.innerHTML = html;
   }
+}
+
+function goToCard(cardId) {
+  // Karte finden
+  const card = document.querySelector('[data-search-id="' + cardId + '"]');
+  if (!card) return;
+
+  // Richtigen Tab finden und aktivieren
+  let el = card;
+  let tabContent = null;
+  while (el && el !== document.body) {
+    if (el.classList && el.classList.contains('tab-content')) { tabContent = el; break; }
+    el = el.parentElement;
+  }
+
+  // Suchergebnis ausblenden, Tabs wieder zeigen
+  document.getElementById('search-results').style.display = 'none';
+  document.querySelector('.tabs').style.display = '';
+  document.querySelectorAll('.tab-content').forEach(t => { t.style.display = 'none'; t.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+  if (tabContent) {
+    tabContent.style.display = 'block';
+    tabContent.classList.add('active');
+    // Passenden Tab-Button aktivieren
+    const tabId = tabContent.id.replace('tab-', '');
+    const tabBtn = document.querySelector(`.tab[onclick*="${tabId}"]`);
+    if (tabBtn) tabBtn.classList.add('active');
+
+    // Unterreiter (ww-panel, route-panel) aufklappen falls nötig
+    let parent = card.parentElement;
+    while (parent && parent !== tabContent) {
+      if (parent.classList && parent.classList.contains('ww-panel')) {
+        document.querySelectorAll('.ww-panel').forEach(p => p.classList.remove('active'));
+        parent.classList.add('active');
+        const panelId = parent.id.replace('ww-', '');
+        const btn = document.querySelector(`.ww-tab[onclick*="${panelId}"]`);
+        if (btn) {
+          document.querySelectorAll('.ww-tab').forEach(t => t.classList.remove('act-nat','act-reg','act-lok'));
+          if (panelId==='national') btn.classList.add('act-nat');
+          else if (panelId==='regional') btn.classList.add('act-reg');
+          else if (panelId==='lokal') btn.classList.add('act-lok');
+        }
+      }
+      if (parent.classList && parent.classList.contains('route-panel')) {
+        document.querySelectorAll('.route-panel').forEach(p => p.classList.remove('active'));
+        parent.classList.add('active');
+      }
+      parent = parent.parentElement;
+    }
+  }
+
+  // Details-Elemente auf dem Weg zur Karte öffnen
+  let detailsEl = card.closest('details');
+  while (detailsEl) {
+    detailsEl.open = true;
+    detailsEl = detailsEl.parentElement ? detailsEl.parentElement.closest('details') : null;
+  }
+
+  // Zur Karte scrollen und kurz hervorheben
+  setTimeout(() => {
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.style.transition = 'box-shadow 0.3s';
+    card.style.boxShadow = '0 0 0 3px #0F6E56';
+    setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+  }, 150);
 }
 
 function clearSearch() {
